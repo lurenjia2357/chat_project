@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/user_avatar.png</file>
+        <file>image/chat_icon_press.png</file>
+        <file>image/contact_list.png</file>
+        <file>image/contact_list_hover.png</file>
+        <file>image/contact_list_press.png</file>
+        <file>image/chat_icon.png</file>
+        <file>image/chat_icon_hover.png</file>
+        <file>image/search.png</file>
+        <file>image/add_friend_normal.png</file>
+        <file>image/close_search.png</file>
+        <file>image/avatar_1.jpg</file>
+        <file>image/chat_background_icon.png</file>
+        <file>image/add_friend_hover.png</file>
+        <file>image/add_friend_press.png</file>
+        <file>image/red_point.png</file>
+    </qresource>
+</RCC>

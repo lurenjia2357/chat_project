@@ -1,0 +1,21 @@
+# 编译生成的文件夹
+build/
+*-build/
+Debug/
+Release/
+
+# Qt Creator 和 CMake 临时文件
+*.user
+*.user.*
+CMakeLists.txt.user*
+CMakeCache.txt
+CMakeFiles/
+Makefile
+.ninja_*
+.qmlcache/
+.rcc/
+meta_types/
+
+# 系统文件
+.DS_Store
+Thumbs.db
