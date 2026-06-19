@@ -8,8 +8,8 @@
 
 ## 项目结构
 
-chat_project/
-├── client/qt_client/ # QML 客户端（登录/注册/重置/聊天 4 个页面）
+chat_project/  
+├── client/qt_client/ # QML 客户端（登录/注册/重置/聊天 4 个页面）  
 ├── server/qt_server/ # HTTP 服务端（16 个 API 端点 + SMTP 邮件）
 
 服务端核心模块：`VerifyServer` 路由 API 并管理验证码，`SqlManager` 统一数据库访问，`ChatServer` 处理消息收发与未读追踪，`SmtpClient` 手写 SMTP 协议状态机实现邮件发送。
@@ -20,10 +20,10 @@ chat_project/
 
 ## 核心 API
 
-注册/登录/重置密码 → POST /register_user  /login  /reset_password
-邮箱验证码 → POST /send_email  /verify_code
-头像 → POST /update_avatar
-好友管理 → GET /friend_list  /search_user  /pending_requests  POST /add_friend  /accept_friend  /reject_friend
+注册/登录/重置密码 → POST /register_user  /login  /reset_password  
+邮箱验证码 → POST /send_email  /verify_code  
+头像 → POST /update_avatar  
+好友管理 → GET /friend_list  /search_user  /pending_requests  POST /add_friend  /accept_friend  /reject_friend  
 聊天 →  POST /send_message  /mark_read  GET /get_messages  /conversations
 
 ## 构建与运行
