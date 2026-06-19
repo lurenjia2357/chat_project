@@ -31,5 +31,3 @@ chat_project/
 **环境要求**：Qt 6.8（Quick / Network / HttpServer / Sql 模块）、MySQL 8.0 + ODBC 驱动、CMake 3.19+、MSVC 2022 64-bit。
 
 启动前需修改 `verifyserver.h` 中的发件邮箱与 SMTP 授权码。
-
-## License
