@@ -13,13 +13,13 @@
 #include <QLocale>
 #include <QTranslator>
 #include "verifyserver.h"
-#include "registeruser.h"
+#include "sqlmanager.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    if (!RegisterUser::instance().connect("10.0.0.100", 3308, "db_new_chat", "root", "123456"))
+    if (!SqlManager::instance().connect("10.0.0.100", 3308, "db_new_chat", "root", "123456"))
     {
         return -1;
     }

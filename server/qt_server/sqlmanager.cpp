@@ -1,17 +1,17 @@
-#include "registeruser.h"
+#include "sqlmanager.h"
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
 #include <QJsonObject>
 
-RegisterUser& RegisterUser::instance()
+SqlManager& SqlManager::instance()
 {
-    static RegisterUser ru;
-    return ru;
+    static SqlManager sm;
+    return sm;
 }
 
-bool RegisterUser::connect(const QString &host, int port,
+bool SqlManager::connect(const QString &host, int port,
                            const QString &dbName, const QString &user, const QString &password)
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
@@ -31,7 +31,7 @@ bool RegisterUser::connect(const QString &host, int port,
     return true;
 }
 
-bool RegisterUser::insertUser(const QString &username, const QString &email,
+bool SqlManager::insertUser(const QString &username, const QString &email,
                               const QString &password)
 {
     QSqlDatabase db = QSqlDatabase::database();
@@ -50,7 +50,7 @@ bool RegisterUser::insertUser(const QString &username, const QString &email,
     return true;
 }
 
-bool RegisterUser::updatePassword(const QString &email, const QString &newPassword)
+bool SqlManager::updatePassword(const QString &email, const QString &newPassword)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
@@ -77,7 +77,7 @@ bool RegisterUser::updatePassword(const QString &email, const QString &newPasswo
     return true;
 }
 
-int RegisterUser::verifyLogin(const QString &username, const QString &password, QString &outAvatar, QString &outEmail)
+int SqlManager::verifyLogin(const QString &username, const QString &password, QString &outAvatar, QString &outEmail)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
@@ -98,7 +98,7 @@ int RegisterUser::verifyLogin(const QString &username, const QString &password, 
     return userId;
 }
 
-QJsonArray RegisterUser::getFriendList(int userId)
+QJsonArray SqlManager::getFriendList(int userId)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
@@ -132,7 +132,7 @@ QJsonArray RegisterUser::getFriendList(int userId)
     return arr;
 }
 
-QJsonArray RegisterUser::searchUser(const QString &keyword, int excludeUserId)
+QJsonArray SqlManager::searchUser(const QString &keyword, int excludeUserId)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
@@ -171,7 +171,7 @@ QJsonArray RegisterUser::searchUser(const QString &keyword, int excludeUserId)
     return arr;
 }
 
-bool RegisterUser::addFriend(int userId, int friendId)
+bool SqlManager::addFriend(int userId, int friendId)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
@@ -198,7 +198,7 @@ bool RegisterUser::addFriend(int userId, int friendId)
     return query.exec();
 }
 
-int RegisterUser::getPendingRequestCount(int userId)
+int SqlManager::getPendingRequestCount(int userId)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
@@ -217,7 +217,7 @@ int RegisterUser::getPendingRequestCount(int userId)
     return 0;
 }
 
-QJsonArray RegisterUser::getPendingRequests(int userId)
+QJsonArray SqlManager::getPendingRequests(int userId)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
@@ -242,7 +242,7 @@ QJsonArray RegisterUser::getPendingRequests(int userId)
     return arr;
 }
 
-bool RegisterUser::acceptFriend(int fromUserId, int toUserId)
+bool SqlManager::acceptFriend(int fromUserId, int toUserId)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
@@ -252,7 +252,7 @@ bool RegisterUser::acceptFriend(int fromUserId, int toUserId)
     return query.exec() && query.numRowsAffected() > 0;
 }
 
-bool RegisterUser::rejectFriend(int fromUserId, int toUserId)
+bool SqlManager::rejectFriend(int fromUserId, int toUserId)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);

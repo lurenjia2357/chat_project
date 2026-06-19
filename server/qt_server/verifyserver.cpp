@@ -1,6 +1,6 @@
 #include "verifyserver.h"
 #include "smtpclient.h"
-#include "registeruser.h"
+#include "sqlmanager.h"
 #include "chatserver.h"
 #include <QRandomGenerator>
 #include <QDebug>
@@ -105,7 +105,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
             return QHttpServerResponse("验证码错误或已过期", Status::Unauthorized);
         }
 
-        if (RegisterUser::instance().insertUser(username, email, password)) {
+        if (SqlManager::instance().insertUser(username, email, password)) {
             return QHttpServerResponse("注册成功", Status::Ok);
         } else {
             return QHttpServerResponse("注册失败，用户名或邮箱已存在", Status::Conflict);
@@ -130,7 +130,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
             return QHttpServerResponse("验证码错误或已过期", Status::Unauthorized);
         }
 
-        if (RegisterUser::instance().updatePassword(email, password)) {
+        if (SqlManager::instance().updatePassword(email, password)) {
             return QHttpServerResponse("密码重置成功", Status::Ok);
         } else {
             return QHttpServerResponse("密码重置失败，邮箱未注册", Status::Conflict);
@@ -153,7 +153,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
         QString avatar;
         QString email;
 
-        int userId = RegisterUser::instance().verifyLogin(username, password, avatar, email);
+        int userId = SqlManager::instance().verifyLogin(username, password, avatar, email);
 
         if (userId < 0) {
             return QHttpServerResponse("用户名或密码错误", Status::Unauthorized);
@@ -183,7 +183,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
             return QHttpServerResponse("缺少 user_id", Status::BadRequest);
         }
         int userId = userIdStr.toInt();
-        QJsonArray list = RegisterUser::instance().getFriendList(userId);
+        QJsonArray list = SqlManager::instance().getFriendList(userId);
 
         return QHttpServerResponse("application/json",
                                    QJsonDocument(list).toJson(QJsonDocument::Compact),
@@ -227,7 +227,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
         }
 
         int userId = userIdStr.toInt();
-        QJsonArray list = RegisterUser::instance().searchUser(keyword, userId);
+        QJsonArray list = SqlManager::instance().searchUser(keyword, userId);
 
         return QHttpServerResponse("application/json",
                                    QJsonDocument(list).toJson(QJsonDocument::Compact),
@@ -251,7 +251,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
         int userId = userIdStr.toInt();
         int friendId = friendIdStr.toInt();
 
-        if (RegisterUser::instance().addFriend(userId, friendId)) {
+        if (SqlManager::instance().addFriend(userId, friendId)) {
             return QHttpServerResponse(Status::Created);
         }else {
             return QHttpServerResponse(Status::Conflict);
@@ -271,7 +271,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
         }
 
         int userId = userIdStr.toInt();
-        int count = RegisterUser::instance().getPendingRequestCount(userId);
+        int count = SqlManager::instance().getPendingRequestCount(userId);
 
         QJsonObject resp;
         resp["count"] = count;
@@ -293,7 +293,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
         }
 
         int userId = userIdStr.toInt();
-        QJsonArray list = RegisterUser::instance().getPendingRequests(userId);
+        QJsonArray list = SqlManager::instance().getPendingRequests(userId);
 
         return QHttpServerResponse("application/json",
                                    QJsonDocument(list).toJson(QJsonDocument::Compact),
@@ -309,7 +309,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
         int fromUserId = query.queryItemValue("from_user_id").toInt();
         int toUserId = query.queryItemValue("to_user_id").toInt();
 
-        if (RegisterUser::instance().acceptFriend(fromUserId, toUserId)) {
+        if (SqlManager::instance().acceptFriend(fromUserId, toUserId)) {
             return QHttpServerResponse(Status::Ok);
         } else {
             return QHttpServerResponse(Status::Conflict);
@@ -325,7 +325,7 @@ VerifyServer::VerifyServer(QObject *parent) : QObject(parent)
         int fromUserId = query.queryItemValue("from_user_id").toInt();
         int toUserId = query.queryItemValue("to_user_id").toInt();
 
-        RegisterUser::instance().rejectFriend(fromUserId, toUserId);
+        SqlManager::instance().rejectFriend(fromUserId, toUserId);
         return QHttpServerResponse(Status::Ok);
     });
 

@@ -1,13 +1,13 @@
-#ifndef REGISTERUSER_H
-#define REGISTERUSER_H
+#ifndef SQLMANAGER_H
+#define SQLMANAGER_H
 
 #include <QString>
 #include <QJsonArray>
 
-class RegisterUser
+class SqlManager
 {
 public:
-    static RegisterUser& instance();
+    static SqlManager& instance();
     bool connect(const QString &host, int port, const QString &dbName, const QString &user, const QString &password);
     bool insertUser(const QString &username, const QString &email, const QString &password);
     bool updatePassword(const QString &email, const QString &newPassword);
@@ -21,7 +21,7 @@ public:
     bool rejectFriend(int fromUserId, int toUserId);
 
 private:
-    RegisterUser() = default;
+    SqlManager() = default;
 };
 
-#endif // REGISTERUSER_H
+#endif // SQLMANAGER_H

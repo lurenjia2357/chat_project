@@ -551,8 +551,8 @@ Item {
                             text: model.lastTime
                             anchors.right: parent.right
                             anchors.rightMargin: 12
-                            anchors.top: parent.top
-                            anchors.topMargin: 10
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 10
                             font.pixelSize: 10
                             color: "#999999"
                         }
